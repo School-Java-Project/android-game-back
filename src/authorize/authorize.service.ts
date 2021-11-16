@@ -10,7 +10,8 @@ export class AuthorizeService {
   constructor(
     @InjectRepository(EntityUser) private user: Repository<EntityUser>,
   ) {}
-  async login(data: dto.getUser) {
+
+  async register(data: dto.getUser) {
     const result = await this.user.findOne({ username: data.username });
     if (result) return '사용자가 있습니다';
 
@@ -20,5 +21,14 @@ export class AuthorizeService {
     await this.user.create(newData);
     await this.user.save(newData);
     return 'done';
+  }
+
+  async login(data: dto.getUser) {
+    const userData = await this.user.findOne({ username: data.username });
+    if (!userData) return false;
+
+    const result = await bcrypt.compare(data.password, userData.password);
+
+    return result;
   }
 }

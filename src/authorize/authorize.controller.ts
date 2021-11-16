@@ -7,7 +7,15 @@ export class AuthorizeController {
   constructor(private readonly AService: AuthorizeService) {}
 
   @Post('/register')
+  register(@Body() data: dto.getUser) {
+    return this.AService.register(data);
+  }
+
+  @Post('/login')
   login(@Body() data: dto.getUser) {
-    return this.AService.login(data);
+    if (this.AService.login(data)) {
+      return 'fuck';
+    }
+    return '응 아니야';
   }
 }
