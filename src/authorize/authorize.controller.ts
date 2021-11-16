@@ -5,13 +5,9 @@ import * as dto from './dto';
 @Controller('authorize')
 export class AuthorizeController {
   constructor(private readonly AService: AuthorizeService) {}
-  @Post()
+
+  @Post('/register')
   login(@Body() data: dto.getUser) {
-    try {
-      this.AService.login(data);
-      return 'done';
-    } catch (e) {
-      return e;
-    }
+    return this.AService.login(data);
   }
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityUser } from 'src/Entity/user.entity';
 import { Repository } from 'typeorm';
 import * as dto from './dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthorizeService {
@@ -11,11 +12,13 @@ export class AuthorizeService {
   ) {}
   async login(data: dto.getUser) {
     const result = await this.user.findOne({ username: data.username });
-    if (result) throw Error('사용자가 있음');
+    if (result) return '사용자가 있습니다';
 
-    const newData = { username: data.username, password: data.password };
-    this.user.create(newData);
-    this.user.save(newData);
+    const hash = await bcrypt.hash(data.password, 10);
+
+    const newData = { username: data.username, password: hash };
+    await this.user.create(newData);
+    await this.user.save(newData);
     return 'done';
   }
 }

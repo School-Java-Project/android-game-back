@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorizeModule } from './authorize/authorize.module';
+import { EntityUser } from './Entity/user.entity';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { AuthorizeModule } from './authorize/authorize.module';
       username: 'root',
       password: '1234',
       database: 'android_server',
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: [EntityUser],
       synchronize: true,
     }),
   ],
