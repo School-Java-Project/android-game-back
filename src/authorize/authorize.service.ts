@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityUser } from 'src/Entity/user.entity';
 import { Repository } from 'typeorm';
@@ -13,14 +13,14 @@ export class AuthorizeService {
 
   async register(data: dto.getUser) {
     const result = await this.user.findOne({ username: data.username });
-    if (result) return '사용자가 있습니다';
+    if (result) throw ForbiddenException;
 
     const hash = await bcrypt.hash(data.password, 10);
 
     const newData = { username: data.username, password: hash };
     await this.user.create(newData);
     await this.user.save(newData);
-    return 'done';
+    return;
   }
 
   async login(data: dto.getUser) {
