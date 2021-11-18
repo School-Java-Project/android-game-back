@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { AuthorizeService } from './authorize.service';
 import { JwtService } from '@nestjs/jwt';
 import * as dto from './dto';
@@ -28,6 +28,14 @@ export class AuthorizeController {
       const jwt = await this.jwtService.signAsync({ username: data.username });
       res.cookie('auth', jwt, { httpOnly: true });
     }
+    return {
+      message: 'done',
+    };
+  }
+
+  @Get('/logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('auth');
     return {
       message: 'done',
     };

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorizeModule } from './authorize/authorize.module';
 import { EntityUser } from './Entity/user.entity';
+import { RankModule } from './rank/rank.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EntityUser } from './Entity/user.entity';
       entities: [EntityUser],
       synchronize: true,
     }),
+    RankModule,
   ],
 })
 export class AppModule {}
