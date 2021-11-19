@@ -7,3 +7,8 @@ export class RankDto {
   @IsNumber()
   num: number;
 }
+
+export class GetNumDto {
+  @IsNumber()
+  num: number;
+}

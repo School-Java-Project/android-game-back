@@ -11,10 +11,17 @@ export class RankService {
   ) {}
 
   async getAllRank() {
-    await (await this.rank.find()).sort((i, j) => j.num - i.num).slice(0, 11);
+    return await (await this.rank.find())
+      .sort((i, j) => j.num - i.num)
+      .slice(0, 11);
   }
 
   async addRank(data: dto.RankDto) {
-    return await this.rank.save(data);
+    const result = await this.rank.findOne({ userId: data.userId });
+    if (!result || data.num > result.num) {
+      return await this.rank.save(data);
+    } else {
+      return result;
+    }
   }
 }

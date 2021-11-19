@@ -26,7 +26,7 @@ export class RankController {
   }
 
   @Post()
-  async addRank(@Body() data: dto.RankDto, @Req() req: Request) {
+  async addRank(@Body() data: dto.GetNumDto, @Req() req: Request) {
     try {
       const cookie = req.cookies['auth'];
       const result = await this.jwtService.verifyAsync(cookie);
@@ -35,7 +35,7 @@ export class RankController {
       if (!(await this.authService.check(result.username)))
         throw new UnauthorizedException();
 
-      return this.rankS.addRank(data);
+      return this.rankS.addRank({ num: data.num, userId: result.username });
     } catch (e) {
       throw new UnauthorizedException();
     }
