@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { AuthorizeService } from './authorize.service';
 import { JwtService } from '@nestjs/jwt';
 import * as dto from './dto';
@@ -27,6 +34,8 @@ export class AuthorizeController {
     if (await this.AService.login(data)) {
       const jwt = await this.jwtService.signAsync({ username: data.username });
       res.cookie('auth', jwt, { httpOnly: true });
+    } else {
+      throw new BadRequestException();
     }
     return {
       message: 'done',

@@ -13,7 +13,7 @@ export class AuthorizeService {
 
   async register(data: dto.getUser) {
     const result = await this.user.findOne({ username: data.username });
-    if (result) throw ForbiddenException;
+    if (result) throw new ForbiddenException();
 
     const hash = await bcrypt.hash(data.password, 10);
 
@@ -30,5 +30,11 @@ export class AuthorizeService {
     const result = await bcrypt.compare(data.password, userData.password);
 
     return result;
+  }
+
+  async check(username: string) {
+    const result = await this.user.findOne({ username });
+    if (result) return true;
+    else return false;
   }
 }

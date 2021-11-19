@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorizeModule } from './authorize/authorize.module';
 import { EntityUser } from './Entity/user.entity';
+import { EntityRank } from './Entity/rank.entity';
 import { RankModule } from './rank/rank.module';
 
 @Module({
@@ -14,7 +15,7 @@ import { RankModule } from './rank/rank.module';
       username: 'root',
       password: '1234',
       database: 'android_server',
-      entities: [EntityUser],
+      entities: [EntityUser, EntityRank],
       synchronize: true,
     }),
     RankModule,
