@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityRank } from 'src/Entity/rank.entity';
 import { Repository } from 'typeorm';
@@ -23,5 +23,12 @@ export class RankService {
     } else {
       return result;
     }
+  }
+
+  async findUserData(userId: string) {
+    const result = await this.rank.findOne({ userId });
+    if (!result) throw new UnauthorizedException();
+
+    return result;
   }
 }

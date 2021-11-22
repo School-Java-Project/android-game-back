@@ -40,4 +40,15 @@ export class RankController {
       throw new UnauthorizedException();
     }
   }
+
+  @Get('findme')
+  async findUserData(@Req() req: Request) {
+    try {
+      const cookie = req.cookies['auth'];
+      const user = await this.jwtService.verifyAsync(cookie);
+      return this.rankS.findUserData(user.username);
+    } catch (e) {
+      throw new UnauthorizedException();
+    }
+  }
 }
